@@ -1,0 +1,35 @@
+@author: lavlew
+"""
+
+import numpy as np
+import csv
+
+def Readfile(file_name = 'participants.csv'):
+    participants = []
+    with open(file_name) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = -1
+        for row in csv_reader:
+            line_count += 1
+            if line_count != 0:
+                for i in range(int(row[2])):
+                    participants.append(row[0])
+        np.random.shuffle(participants)
+    return participants
+
+def Shuffle(participants):
+    index_1 = np.random.randint(len(participants))
+    index_2 = np.random.randint(len(participants))
+    while index_1 == index_2:
+        index_1 = np.random.randint(len(participants))
+    participants[index_1], participants[index_2] = participants[index_2], participants[index_1]
+
+def Draw(participants):
+    for i in range(100):
+        Shuffle(participants)
+    winner = np.random.randint(len(participants))
+    return participants[winner]
+            
+participants = Readfile()
+winner = Draw(participants)
+print(winner)
